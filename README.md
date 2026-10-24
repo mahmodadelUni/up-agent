@@ -87,7 +87,7 @@ Test cases aren't stored in the repository. Each person keeps their own in a `te
 
 1. Create the `tests/` folder next to `README.md`.
 2. Put your test cases in it as `.md` files. You can get them in three ways:
-   - **From a Jira story:** in Claude, run `/tests-from-jira FMS-180`. The tests are written to `tests/FMS-180-cases/`.
+   - **From a Jira story:** in Claude, run `/tests-from-jira <story-id>`. The tests are written to `tests/<story-id>-cases/`.
    - **From requirement text:** in Claude, run `/new-test <paste the acceptance criteria>`.
    - **By hand:** copy `templates/test-case.template.md` into `tests/`, rename it like `TC-001-login.md`, and fill it in (see [Writing a test case](#writing-a-test-case)).
 3. Check your test files. This opens no browser:
@@ -112,10 +112,10 @@ Test cases aren't stored in the repository. Each person keeps their own in a `te
 claude                         # or: HEADED=1 claude to watch the browser
 ```
 
-1. `/tests-from-jira FMS-180`: review the coverage plan, approve it, and the tests are written to `tests/FMS-180-cases/`.
+1. `/tests-from-jira <story-id>`: review the coverage plan, approve it, and the tests are written to `tests/<story-id>-cases/`.
 2. Replace every `[CONFIRM TEXT]` placeholder with the real UI text. The linter holds those tests back until you do.
-3. `/run-suite tests/FMS-180-cases`: runs the tests and produces the report.
-4. `/upload-to-aio FMS-180`: syncs the tests to AIO Tests.
+3. `/run-suite tests/<story-id>-cases`: runs the tests and produces the report.
+4. `/upload-to-aio <story-id>`: syncs the tests to AIO Tests.
 
 ## Commands
 
@@ -152,7 +152,7 @@ Add these words to a command to change its behaviour:
 
 ## Skills
 
-Skills are instructions that Claude loads automatically when a task needs them. The commands above use them, and so do plain requests like "write test cases for FMS-180".
+Skills are instructions that Claude loads automatically when a task needs them. The commands above use them, and so do plain requests like "write test cases for <story-id>".
 
 ### `jira-story-to-tests`: Jira story → test cases
 
@@ -206,7 +206,7 @@ type: negative
 base_url: https://uatfleet.noor.city
 tags: [reports, smoke]
 requires_auth: true
-jira: FMS-180
+jira: <story-id>
 ---
 
 ## Objective
