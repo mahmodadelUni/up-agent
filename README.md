@@ -39,7 +39,7 @@ claude        # log in on first start, then type /exit
 ### 2. Clone the repository
 
 ```bash
-git clone <[repo-url](https://github.com/mahmodadelUni/up-agent)> up-agent
+git clone https://github.com/mahmodadelUni/up-agent up-agent
 cd up-agent
 npm install
 ```
