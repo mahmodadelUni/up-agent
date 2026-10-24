@@ -36,29 +36,50 @@ claude        # log in on first start, then type /exit
 
 **Check:** `claude --version` and `playwright-cli --version` both print a version.
 
-### 2. Clone the repository
+### 2. Clone the project and open it in VS Code
 
 ```bash
-git clone <repo-url> up-agent
+git clone https://github.com/mahmodadelUni/up-agent.git
 cd up-agent
 npm install
+code .
 ```
 
-### 3. Add your test accounts
+`code .` opens the project folder in VS Code. Run every later command in VS Code's terminal (**Terminal → New Terminal**), which starts in the project folder.
 
-```bash
-cp .env.example .env
+If you see `code: command not found` on macOS, open VS Code, press `Cmd+Shift+P`, run **Shell Command: Install 'code' command in PATH**, and try again. On Windows the command is set up when VS Code is installed.
+
+### 3. Create `.env` (test accounts)
+
+In VS Code, create a file named `.env` in the project root (next to `README.md`), paste the lines below, and replace the values with your test-environment accounts:
+
+```ini
+APP_EMAIL=admin@example.com
+APP_EMAIL_VALID=admin@example.com
+APP_PASS=change-me
+APP_INSPECTOR_EMAIL=inspector@example.com
+APP_INSPECTOR_PASS=change-me
 ```
 
-Open `.env` and fill in the admin and inspector accounts for the test environment. The agent itself never reads this file.
+`.env` is gitignored, so it never gets pushed. The agent itself never reads it.
 
-### 4. Turn on Jira bug uploads (optional)
+### 4. Create `.env.jira` (optional: Jira bug uploads)
 
-```bash
-cp .env.jira.example .env.jira
+Skip this step if you don't want failed tests reported to Jira automatically. Otherwise, create `.env.jira` in the project root:
+
+```ini
+JIRA_BASE_URL=https://your-site.atlassian.net
+JIRA_EMAIL=you@example.com
+JIRA_API_TOKEN=paste-your-api-token
+JIRA_PROJECT_KEY=FMS
+JIRA_PROJECT_ID=10000
+JIRA_ISSUE_TYPE_ID=10001
+JIRA_DRY_RUN=true
 ```
 
-Fill in your Jira site, email, [API token](https://id.atlassian.com/manage-profile/security/api-tokens), project ID and issue-type ID. Uploads stay in **dry-run** mode (`JIRA_DRY_RUN=true`) until you set `JIRA_DRY_RUN=false`, so nothing reaches Jira before you've checked the preview.
+- Create the token at [id.atlassian.com → API tokens](https://id.atlassian.com/manage-profile/security/api-tokens).
+- `JIRA_DRY_RUN=true` only previews the bugs in `bugs/jira-report.md`. Set it to `false` when you want them uploaded.
+- Optional: add `JIRA_UPLOAD_CATEGORIES=product-bug` to upload only app defects.
 
 ### 5. Run your first test
 
@@ -152,7 +173,7 @@ Skills are instructions that Claude loads automatically when a task needs them. 
 
 - **Used by:** the test runner, automatically, for every test that fails on both attempts
 - **What it does:** writes `bugs/<TC-ID>.json` in the run folder. The file has the title, severity, steps to reproduce, expected and actual results, screenshots, and the triage category.
-- **Then:** after each Claude turn, `scripts/jira-upload.mjs` turns these files into Jira bugs. Each bug uses your template, gets labels (`qa-agent`, `<TC-ID>`, `triage-<category>`) and has its screenshots attached. If an open bug already exists for the test, the script adds a comment to it instead of creating a new one. To upload only app defects, set `JIRA_UPLOAD_CATEGORIES=product-bug` in `.env.jira`.
+- **Then:** after each Claude turn, `scripts/jira-upload.mjs` turns these files into Jira bugs. Each bug uses your template, gets labels (`qa-agent`, `<TC-ID>`, `triage-<category>`) and has its screenshots attached. If an open bug already exists for the test, the script adds a comment to it instead of creating a new one.
 
 ### `playwright-cli`: browser commands
 
@@ -201,7 +222,7 @@ Rules for stable tests:
 
 - Each row has one action and one expected result that can be seen on the page. Write `Toast "Saved" appears`, not "it works".
 - Put exact UI text in `"double quotes"`.
-- Write credentials only as `env:APP_*`. A new role needs a new `APP_*` variable in `.env` and `.env.example`.
+- Write credentials only as `env:APP_*`. A new role needs a new `APP_*` variable in `.env`. Add it to the `.env` list in setup step 3 too, so the team knows about it.
 - A test that changes data needs a `## Setup` and a `## Teardown`.
 - `type` is one of `functional`, `regression`, `smoke` or `negative`. Smoke tests have 5 steps or fewer.
 
@@ -281,8 +302,6 @@ templates/                    Test case template and result example
 tests/                        Test cases. One folder per story: tests/<KEY>-cases/
 test-data/                    Data files that tests reference
 e2e/                          Playwright specs created by /graduate-test
-.env.example                  Template for .env (test accounts)
-.env.jira.example             Template for .env.jira (Jira bug uploads)
 ```
 
 ## Troubleshooting
