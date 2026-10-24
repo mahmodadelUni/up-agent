@@ -1,0 +1,18 @@
+{
+  "name": "up-agent",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AI QA agent: Claude Code runs Markdown test cases in a real browser with playwright-cli.",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "lint": "node scripts/lint-tests.mjs tests/",
+    "report": "node scripts/build-report.mjs",
+    "jira:upload": "node scripts/jira-upload.mjs",
+    "e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.0"
+  }
+}

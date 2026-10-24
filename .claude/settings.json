@@ -1,0 +1,36 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(playwright-cli *)",
+      "Bash(bash scripts/fill-secret.sh *)",
+      "Bash(node scripts/lint-tests.mjs *)",
+      "Bash(node scripts/run-start.mjs *)",
+      "Bash(node scripts/run-finish.mjs *)",
+      "Bash(node scripts/build-report.mjs *)",
+      "Bash(date *)",
+      "Edit(./results/runs/**)",
+      "Bash(node scripts/hash-tests.mjs *)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./.auth/**)",
+      "Bash(cat .env*)",
+      "Bash(printenv*)",
+      "Bash(env)"
+    ]
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/scripts/jira-upload.mjs\" --hook",
+            "timeout": 120
+          }
+        ]
+      }
+    ]
+  }
+}

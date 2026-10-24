@@ -1,0 +1,22 @@
+# Secrets: every .env file except the committed examples
+.env
+.env.*
+.auth/
+test-data/
+
+# Personal Claude Code settings
+.claude/settings.local.json
+
+# Run output (each run lives in results/runs/<run-id>/)
+results/*
+!results/.gitkeep
+
+# Dependencies and Playwright Test output (/graduate-test specs)
+node_modules/
+playwright-report/
+test-results/
+blob-report/
+
+# playwright-cli runtime output: page snapshots and console logs can contain app data
+.playwright-cli/
+.playwright/
