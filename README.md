@@ -71,9 +71,9 @@ Skip this step if you don't want failed tests reported to Jira automatically. Ot
 JIRA_BASE_URL=https://your-site.atlassian.net
 JIRA_EMAIL=you@example.com
 JIRA_API_TOKEN=paste-your-api-token
-JIRA_PROJECT_KEY=FMS
-JIRA_PROJECT_ID=10000
-JIRA_ISSUE_TYPE_ID=10001
+JIRA_PROJECT_KEY=YOUR-PROJECT-KEY
+JIRA_PROJECT_ID=YOUR-PROJECT-ID
+JIRA_ISSUE_TYPE_ID=ISSUE-TYPE
 JIRA_DRY_RUN=true
 ```
 
