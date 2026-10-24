@@ -112,34 +112,34 @@ claude                         # or: HEADED=1 claude to watch the browser
 
 ## Commands
 
-| Command | What it does |
-|---------|--------------|
-| `/tests-from-jira <story>` | Writes test cases from a Jira story. Accepts a key, URL, issue ID, story name, `epic FMS-100` or JQL. |
-| `/new-test <requirement text>` | Writes test cases from pasted requirements instead of Jira. |
-| `/run-test <file(s)>` | Runs specific tests one at a time, so you can watch them. |
-| `/run-suite <folder> [tag]` | Runs a folder of tests, up to 3 in parallel. Example: `/run-suite tests/ smoke` |
-| `/upload-to-aio <story or files>` | Creates or updates AIO test cases linked to the story. |
-| `/graduate-test <file>` | Converts a test that passed its last 3 runs into a Playwright spec in `e2e/`. |
+| Command                           | What it does                                                                                          |
+| --------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `/tests-from-jira <story>`        | Writes test cases from a Jira story. Accepts a key, URL, issue ID, story name, `epic FMS-100` or JQL. |
+| `/new-test <requirement text>`    | Writes test cases from pasted requirements instead of Jira.                                           |
+| `/run-test <file(s)>`             | Runs specific tests one at a time, so you can watch them.                                             |
+| `/run-suite <folder> [tag]`       | Runs a folder of tests, up to 3 in parallel. Example: `/run-suite tests/ smoke`                       |
+| `/upload-to-aio <story or files>` | Creates or updates AIO test cases linked to the story.                                                |
+| `/graduate-test <file>`           | Converts a test that passed its last 3 runs into a Playwright spec in `e2e/`.                         |
 
 Add these words to a command to change its behaviour:
 
-| Word | Command | Effect |
-|------|---------|--------|
-| `no review` | `/tests-from-jira`, `/upload-to-aio` | Skips the approval step |
-| `comment on Jira` | `/tests-from-jira` | Posts the test list to the story (you see it first) |
-| `project <KEY>` | `/upload-to-aio` | AIO project to upload into (default: the story's prefix) |
-| `folder <path>` | `/upload-to-aio` | Parent AIO folder (default: root) |
-| `status <name>` | `/upload-to-aio` | AIO status for new cases (default: `Draft`) |
-| `include unconfirmed` | `/upload-to-aio` | Also uploads tests that still have `[CONFIRM TEXT]` |
+| Word                  | Command                              | Effect                                                   |
+| --------------------- | ------------------------------------ | -------------------------------------------------------- |
+| `no review`           | `/tests-from-jira`, `/upload-to-aio` | Skips the approval step                                  |
+| `comment on Jira`     | `/tests-from-jira`                   | Posts the test list to the story (you see it first)      |
+| `project <KEY>`       | `/upload-to-aio`                     | AIO project to upload into (default: the story's prefix) |
+| `folder <path>`       | `/upload-to-aio`                     | Parent AIO folder (default: root)                        |
+| `status <name>`       | `/upload-to-aio`                     | AIO status for new cases (default: `Draft`)              |
+| `include unconfirmed` | `/upload-to-aio`                     | Also uploads tests that still have `[CONFIRM TEXT]`      |
 
 ## npm scripts
 
-| Script | What it does |
-|--------|--------------|
-| `npm run lint` | Lints all tests. Add `-- --tag smoke` to lint only one tag. |
-| `npm run report` | Re-renders the latest run's report. Add `-- --all` for every run. |
+| Script                | What it does                                                                            |
+| --------------------- | --------------------------------------------------------------------------------------- |
+| `npm run lint`        | Lints all tests. Add `-- --tag smoke` to lint only one tag.                             |
+| `npm run report`      | Re-renders the latest run's report. Add `-- --all` for every run.                       |
 | `npm run jira:upload` | Uploads the latest run's bug reports to Jira. Add `-- --run <run-id>` for an older run. |
-| `npm run e2e` | Runs the graduated Playwright specs in `e2e/`. |
+| `npm run e2e`         | Runs the graduated Playwright specs in `e2e/`.                                          |
 
 ---
 
@@ -203,18 +203,22 @@ jira: FMS-180
 ---
 
 ## Objective
+
 Required fields are validated before a report is submitted.
 
 ## Preconditions
+
 - Inspector account in `APP_INSPECTOR_EMAIL` / `APP_INSPECTOR_PASS`
 
 ## Steps
-| # | Action | Expected result |
-| - | ------ | --------------- |
-| 1 | Sign in with env:APP_INSPECTOR_EMAIL / env:APP_INSPECTOR_PASS | Heading "My Reports" is visible |
-| 2 | Click "Submit" without filling any field | Error "Title is required" is shown |
+
+| #   | Action                                                        | Expected result                    |
+| --- | ------------------------------------------------------------- | ---------------------------------- |
+| 1   | Sign in with env:APP_INSPECTOR_EMAIL / env:APP_INSPECTOR_PASS | Heading "My Reports" is visible    |
+| 2   | Click "Submit" without filling any field                      | Error "Title is required" is shown |
 
 ## Pass criteria
+
 All expected results match their snapshots. Any mismatch = FAIL.
 ```
 
@@ -247,31 +251,31 @@ results/
 
 ## Statuses and triage
 
-| Status | Meaning |
-|--------|---------|
-| PASS | Every step matched |
-| FAIL | Failed on both attempts. A bug report is written. |
-| FLAKY | Failed once, then passed on the re-run |
+| Status  | Meaning                                                                                   |
+| ------- | ----------------------------------------------------------------------------------------- |
+| PASS    | Every step matched                                                                        |
+| FAIL    | Failed on both attempts. A bug report is written.                                         |
+| FLAKY   | Failed once, then passed on the re-run                                                    |
 | BLOCKED | Couldn't run: setup failed, data missing, environment down, or the test file is malformed |
-| NOT RUN | The agent stopped before the test produced a result |
+| NOT RUN | The agent stopped before the test produced a result                                       |
 
-| Triage category | Meaning |
-|-----------------|---------|
-| `product-bug` | The app is wrong |
-| `test-data` | The account or data the test needs is wrong or missing |
-| `environment` | The environment is down, slow or misconfigured |
-| `test-defect` | The test itself is outdated or ambiguous |
+| Triage category | Meaning                                                |
+| --------------- | ------------------------------------------------------ |
+| `product-bug`   | The app is wrong                                       |
+| `test-data`     | The account or data the test needs is wrong or missing |
+| `environment`   | The environment is down, slow or misconfigured         |
+| `test-defect`   | The test itself is outdated or ambiguous               |
 
 ## Options
 
 Set these when you start Claude, for example `HEADED=1 BASE_URL=https://staging.example.com claude`.
 
-| Variable | Effect |
-|----------|--------|
-| `HEADED=1` | Shows the browser. A session that fails stays open so you can inspect it. |
-| `BASE_URL=<origin>` | Runs every test against another host. Each test keeps its own path. |
-| `QA_PROJECT_NAME` | Sets the report title |
-| `QA_FLAKY_FAILS_GATE=true` | Counts FLAKY as FAIL in `status.txt` |
+| Variable                   | Effect                                                                    |
+| -------------------------- | ------------------------------------------------------------------------- |
+| `HEADED=1`                 | Shows the browser. A session that fails stays open so you can inspect it. |
+| `BASE_URL=<origin>`        | Runs every test against another host. Each test keeps its own path.       |
+| `QA_PROJECT_NAME`          | Sets the report title                                                     |
+| `QA_FLAKY_FAILS_GATE=true` | Counts FLAKY as FAIL in `status.txt`                                      |
 
 To run a suite without the chat (for example, before you leave for the day):
 
@@ -306,15 +310,15 @@ e2e/                          Playwright specs created by /graduate-test
 
 ## Troubleshooting
 
-| Problem | Fix |
-|---------|-----|
+| Problem                                      | Fix                                                                           |
+| -------------------------------------------- | ----------------------------------------------------------------------------- |
 | Test is BLOCKED as "Malformed test (linter)" | Run `npm run lint` and fix what it reports, often a leftover `[CONFIRM TEXT]` |
-| Login fails with `test-data` triage | Check the account in `.env` on the target environment |
-| "No Atlassian / AIO MCP tools available" | Connect or re-authenticate that server in Claude Code (`/mcp`) |
-| Browser doesn't start | `playwright-cli install-browser` |
-| `playwright-cli` command errors | Check `playwright-cli --version` is 0.1.22, then see `playwright-cli --help` |
-| Nothing appears in Jira | `JIRA_DRY_RUN` is still `true`. Check `bugs/jira-report.md`. |
-| `/graduate-test` can't find the browser | `npx playwright install chromium` |
+| Login fails with `test-data` triage          | Check the account in `.env` on the target environment                         |
+| "No Atlassian / AIO MCP tools available"     | Connect or re-authenticate that server in Claude Code (`/mcp`)                |
+| Browser doesn't start                        | `playwright-cli install-browser`                                              |
+| `playwright-cli` command errors              | Check `playwright-cli --version` is 0.1.22, then see `playwright-cli --help`  |
+| Nothing appears in Jira                      | `JIRA_DRY_RUN` is still `true`. Check `bugs/jira-report.md`.                  |
+| `/graduate-test` can't find the browser      | `npx playwright install chromium`                                             |
 
 ## Limits
 
